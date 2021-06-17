@@ -7,12 +7,13 @@ import rehypeHighlight from 'rehype-highlight'
 import rehypeRaw from 'rehype-raw'
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
-import { CodeMirrorEditor } from './CodeMirror'
 import SlideModal from './component/SlideModal'
+import HelpModal from './component/HelpModal'
 import { MarkdownWrapper, MarkdownWrapperHelper} from './component/MarkdownWrapper'
 
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 import {
   Checkbox,
@@ -25,7 +26,13 @@ import {
   IconButton,
 } from '@material-ui/core/';
 
-// const drawerWidth = 1000;
+import CodeMirror from '@uiw/react-codemirror';
+import 'codemirror/addon/display/autorefresh';
+import 'codemirror/addon/comment/comment';
+import 'codemirror/addon/edit/matchbrackets';
+import 'codemirror/keymap/sublime';
+import 'codemirror/theme/nord.css';
+
 const drawerWidth = "50%";
 
 const styles = (theme) => ({
@@ -193,7 +200,6 @@ Much more info is available in the
 ***
 
 A component by [Espen Hovlandsdal](https://espen.codes/)`
-
 class App extends React.PureComponent {
   constructor(props) {
     super(props)
@@ -227,9 +233,22 @@ class App extends React.PureComponent {
     })
   }
 
+  // Download
+  onDownload = () => {
+
+    const element = document.createElement("a")
+    console.log(this.state.value)
+    const file = new Blob([this.state.value],    
+    {type: 'text/plain;charset=utf-8'});
+    element.href = URL.createObjectURL(file);
+    element.download = "markdown-slides.md";
+    document.body.appendChild(element);
+    element.click();
+  }
+
   // Editor Windows Changes
   onSourceChange(evt) {
-    this.setState({value: evt.target.value})
+    this.setState({value: evt.getValue()})
     this.parseValue()
   }
 
@@ -305,6 +324,10 @@ class App extends React.PureComponent {
                 }
                 label="Use rehype-raw"
               />
+              <IconButton style={{color: "#5bc0de"}} onClick={this.onDownload}>
+                <GetAppIcon />
+              </IconButton>
+              <HelpModal/>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -327,10 +350,15 @@ class App extends React.PureComponent {
           >
             <div className={classes.drawerHeader} />
             {/* Code Window */}
-            <CodeMirrorEditor
-              mode="markdown"
-              theme="nord"
+
+            <CodeMirror
               value={this.state.value}
+              options={{
+                theme: 'nord',
+                tabSize: 2,
+                keyMap: 'sublime',
+                mode: 'markdown',
+              }}
               onChange={this.onSourceChange}
             />
 
