@@ -10,7 +10,8 @@ import {
 
 import HelpIcon from '@material-ui/icons/Help';
 import PresentToAllIcon from '@material-ui/icons/PresentToAll';
-
+import GetAppIcon from '@material-ui/icons/GetApp';
+import FullscreenIcon from '@material-ui/icons/Fullscreen';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -71,7 +72,7 @@ export default function SlideModal(props) {
             <br/>
             <br/>
             <Typography variant="h4">Preview Window</Typography>
-            <Typography id="text-body" variant="h6">Preview the Markdown with indication of different slides.</Typography>
+            <Typography id="text-body" variant="h6">Preview the Markdown with indication of different slides. You can fullscreen the preview window by pressing <IconButton disabled={true}><FullscreenIcon/></IconButton></Typography>
             <br/>
             <br/>
             <br/>
@@ -81,7 +82,12 @@ export default function SlideModal(props) {
             <br/>
             <br/>
             <Typography variant="h4">Presentation Mode</Typography>
-            <Typography id="text-body" variant="h6">To present the Markdown Slides, click on the <PresentToAllIcon style={{color: "#5cb85c"}}/> button to enter presentation mode. You can click the slide and/or use the arrow keys to navigate between the individually rendered slides.</Typography>
+            <Typography id="text-body" variant="h6">To present the Markdown Slides, click on the <IconButton disabled={true}><PresentToAllIcon style={{color: "#5cb85c"}}/></IconButton> button to enter presentation mode. You can click the slide and/or use the arrow keys to navigate between the individually rendered slides. Similar to the Preview, you can fullscreen Presentation Mode by clicking <IconButton disabled={true}><FullscreenIcon/></IconButton>.</Typography>
+            <br/>
+            <br/>
+            <br/>
+            <Typography variant="h4">Download</Typography>
+            <Typography id="text-body" variant="h6">The contents of the preview window can be downloadeded. Click on <IconButton disabled={true}><GetAppIcon style={{color: "#5bc0de"}}/></IconButton> to download as <code style={{backgroundColor: '#f4f4f4'}}>markdown-slides.md</code>.</Typography>
           </div>
         </Fade>
       </Modal>

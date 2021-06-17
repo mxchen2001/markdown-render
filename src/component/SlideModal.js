@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -15,6 +16,7 @@ import {
 import PresentToAllIcon from '@material-ui/icons/PresentToAll';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import { MarkdownWrapperHelper } from './MarkdownWrapper';
 
 
@@ -27,6 +29,15 @@ const useStyles = makeStyles((theme) => ({
     margin: "5vh 10vw 5vh 10vw",
     padding: "3em",
   },
+  modalFull: {
+    backgroundColor: theme.palette.background.paper,
+    overflow: 'scroll',
+    width: "100vw",
+    height: "100vh",
+    margin: "0vh 0vw 0vh 0vw",
+    padding: "3em",
+
+  },
   paper: {
     backgroundColor: theme.palette.background.paper,
   },
@@ -34,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+    justifyContent: 'space-between'
   },
   formControl: {
     margin: theme.spacing(1),
@@ -56,6 +68,7 @@ export default function SlideModal(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [pageNum, setPageNum] = React.useState(0);
+  const [full, setFull] = React.useState(false);
 
   const element = MarkdownWrapperHelper(props.value, props.indices, props.remarkPlugins, props.rehypePlugins)
 
@@ -78,6 +91,10 @@ export default function SlideModal(props) {
   const handleSet = (event) => {
     const page = event.target.value;
     setPageNum(page * 2);
+  };
+
+  const handleFull = (event) => {
+    setFull(!full)
   };
 
   const handleKeyPress = (event) => {
@@ -106,12 +123,14 @@ export default function SlideModal(props) {
         onKeyDown={handleKeyPress}
       >
         <Fade in={open}>
-          <div className={classes.modal}>
+          <div className={clsx(classes.modal, {[classes.modalFull] : full})}>
+
+            <IconButton onClick={handleFull}>
+              <FullscreenIcon />
+            </IconButton>
+
             {/* <Grid container>
               <Grid item className={classes.slideNav} xs={4}>
-                <IconButton disabled={pageNum <= 0 ? true : false} onClick={handlePrev}>
-                  <NavigateBeforeIcon />
-                </IconButton>
               </Grid>
               <Grid item className={classes.slideNav} xs={4}>
                 <FormControl className={classes.formControl}>
