@@ -257,22 +257,7 @@ class App extends React.PureComponent {
   // Editor Windows Changes
   onSourceChange(evt, change) {
     this.setState({value: evt.getValue()})
-    switch (change.origin) {
-      case "+input":
-        if (("@newslide").includes(change.text[0])) {
-          this.parseValue()
-        }
-        break;
-      case "+delete":
-        this.parseValue()
-        break;
-      case "paste":
-        this.parseValue()
-        break;
-      case "setValue":
-        this.parseValue()
-        break;
-    }
+    this.parseValue()
   }
 
   // Include Render Options
