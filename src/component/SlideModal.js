@@ -80,6 +80,16 @@ export default function SlideModal(props) {
     setPageNum(page * 2);
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "ArrowRight" || event.key === " " || event.key === "ArrowDown") {
+      setPageNum(pageNum >= element.length - 2 ? pageNum : pageNum + 2);
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      setPageNum(pageNum <= 0 ? 0 : pageNum - 2);
+    } else if (event.key === "Escape") {
+      setOpen(false);
+    }
+  };
+
   return (
     <div>
       <IconButton style={{color: "#5cb85c"}} onClick={handleOpen}>
@@ -92,10 +102,12 @@ export default function SlideModal(props) {
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
+        onClick={handleNext}
+        onKeyDown={handleKeyPress}
       >
         <Fade in={open}>
           <div className={classes.modal}>
-            <Grid container>
+            {/* <Grid container>
               <Grid item className={classes.slideNav} xs={4}>
                 <IconButton disabled={pageNum <= 0 ? true : false} onClick={handlePrev}>
                   <NavigateBeforeIcon />
@@ -120,7 +132,7 @@ export default function SlideModal(props) {
                   <NavigateNextIcon />
                 </IconButton>
               </Grid>
-            </Grid>
+            </Grid> */}
             {element[pageNum]}
             {element[pageNum + 1]}
           </div>

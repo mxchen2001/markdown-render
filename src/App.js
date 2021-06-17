@@ -14,6 +14,7 @@ import { MarkdownWrapper, MarkdownWrapperHelper} from './component/MarkdownWrapp
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import FullscreenIcon from '@material-ui/icons/Fullscreen';
 
 import {
   Checkbox,
@@ -47,7 +48,6 @@ const styles = (theme) => ({
   },
   appBarShift: {
     width: `calc(${100 - parseFloat(drawerWidth)}%)`,
-    // width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
@@ -64,8 +64,15 @@ const styles = (theme) => ({
     width: drawerWidth,
     flexShrink: 0,
   },
+  drawerFull: {
+    width: '100%',
+    flexShrink: 0,
+  },
   drawerPaper: {
     width: drawerWidth,
+  },
+  drawerPaperFull: {
+    width: '100%',
   },
   drawerHeader: {
     display: 'flex',
@@ -213,6 +220,7 @@ class App extends React.PureComponent {
       remarkPlugins: [remarkGfm, remarkSlug, remarkToc],
       rehypePlugins: [[rehypeHighlight, {ignoreMissing: true}]],
       open: true,
+      full: false
     }
   }
 
@@ -247,9 +255,24 @@ class App extends React.PureComponent {
   }
 
   // Editor Windows Changes
-  onSourceChange(evt) {
+  onSourceChange(evt, change) {
     this.setState({value: evt.getValue()})
-    this.parseValue()
+    switch (change.origin) {
+      case "+input":
+        if (("@newslide").includes(change.text[0])) {
+          this.parseValue()
+        }
+        break;
+      case "+delete":
+        this.parseValue()
+        break;
+      case "paste":
+        this.parseValue()
+        break;
+      case "setValue":
+        this.parseValue()
+        break;
+    }
   }
 
   // Include Render Options
@@ -364,21 +387,35 @@ class App extends React.PureComponent {
 
           </main>
           <Drawer
-            className={classes.drawer}
+            className={
+              clsx(classes.drawer, {
+                [classes.drawerFull]: this.state.full,
+              })
+            }
             variant="persistent"
             anchor="right"
             open={this.state.open}
             classes={{
-              paper: classes.drawerPaper,
+              paper: clsx(classes.drawerPaper, {
+                [classes.drawerPaperFull]: this.state.full,
+              }),
             }}
           >
             <div className={classes.drawerHeader}>
               <IconButton onClick={() => {
                   this.setState({
-                    open: false
+                    open: false,
+                    full: false
                   })
                 }}>
                 <VisibilityOffIcon />
+              </IconButton>
+              <IconButton onClick={() => {
+                  this.setState({
+                    full: !this.state.full
+                  })
+                }}>
+                <FullscreenIcon />
               </IconButton>
             </div>
             <div style={{padding: '20px'}}>

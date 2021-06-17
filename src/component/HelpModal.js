@@ -81,8 +81,7 @@ export default function SlideModal(props) {
             <br/>
             <br/>
             <Typography variant="h4">Presentation Mode</Typography>
-            <Typography id="text-body" variant="h6">To present the Markdown Slides, click on the <PresentToAllIcon style={{color: "#5cb85c"}}/> button to enter presentation mode. Each slide will be rendered seperately and you can navigate between all slides present in the preview window.</Typography>
-
+            <Typography id="text-body" variant="h6">To present the Markdown Slides, click on the <PresentToAllIcon style={{color: "#5cb85c"}}/> button to enter presentation mode. You can click the slide and/or use the arrow keys to navigate between the individually rendered slides.</Typography>
           </div>
         </Fade>
       </Modal>
