@@ -83,6 +83,9 @@ const styles = (theme) => ({
     justifyContent: 'flex-start',
   },
   content: {
+    backgroundColor: "#2d3541",
+    minHeight:"100vh",
+    height:"100%",
     flexGrow: 1,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
@@ -91,6 +94,9 @@ const styles = (theme) => ({
     marginRight: "-" + drawerWidth,
   },
   contentShift: {
+    backgroundColor: "#2d3541",
+    minHeight:"100vh",
+    height:"100%",
     flexGrow: 1,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
