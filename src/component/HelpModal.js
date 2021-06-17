@@ -82,7 +82,7 @@ export default function SlideModal(props) {
             <br/>
             <br/>
             <Typography variant="h4">Presentation Mode</Typography>
-            <Typography id="text-body" variant="h6">To present the Markdown Slides, click on the <IconButton disabled={true}><PresentToAllIcon style={{color: "#5cb85c"}}/></IconButton> button to enter presentation mode. You can click the slide and/or use the arrow keys to navigate between the individually rendered slides. Similar to the Preview, you can fullscreen Presentation Mode by clicking <IconButton disabled={true}><FullscreenIcon/></IconButton>.</Typography>
+            <Typography id="text-body" variant="h6">To present the Markdown Slides, click on the <IconButton disabled={true}><PresentToAllIcon style={{color: "#5cb85c"}}/></IconButton> button to enter presentation mode. You can click the slide and/or use the arrow keys to navigate between the individually rendered slides. Similar to the Preview, you can fullscreen Presentation Mode by clicking <IconButton disabled={true}><FullscreenIcon/></IconButton>.  Fullscreen Presentation Mode can be toggled using "F".</Typography>
             <br/>
             <br/>
             <br/>

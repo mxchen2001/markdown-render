@@ -10,6 +10,7 @@ import {
   InputLabel,
   FormHelperText,
   FormControl,
+  Container,
   IconButton 
 } from '@material-ui/core';
 
@@ -93,7 +94,7 @@ export default function SlideModal(props) {
     setPageNum(page * 2);
   };
 
-  const handleFull = (event) => {
+  const handleFull = () => {
     setFull(!full)
   };
 
@@ -104,6 +105,8 @@ export default function SlideModal(props) {
       setPageNum(pageNum <= 0 ? 0 : pageNum - 2);
     } else if (event.key === "Escape") {
       setOpen(false);
+    } else if (event.key === "F" || event.key === "f") {
+      handleFull()
     }
   };
 
@@ -119,7 +122,6 @@ export default function SlideModal(props) {
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
-        onClick={handleNext}
         onKeyDown={handleKeyPress}
       >
         <Fade in={open}>
@@ -152,8 +154,12 @@ export default function SlideModal(props) {
                 </IconButton>
               </Grid>
             </Grid> */}
-            {element[pageNum]}
-            {element[pageNum + 1]}
+            <div onClick={handleNext}>
+              <Container>
+                {element[pageNum]}
+                {element[pageNum + 1]}
+              </Container>
+            </div>
           </div>
         </Fade>
       </Modal>
