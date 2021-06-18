@@ -222,10 +222,9 @@ $ f(a,b,c) = (a^2+b^2+c^2)^3 $
 
 </center>
 
+Creating any html block with \`class="math math-inline"\`
 <div class="math math-display">
-  
   L = \\frac{1}{2} \\rho v^2 S C_L
-
 </div>
 
 Heres the average power formula
@@ -244,6 +243,7 @@ class App extends React.PureComponent {
     this.onControlsChange = this.onControlsChange.bind(this)
     this.onSourceChange = this.onSourceChange.bind(this)
     this.toggleTheme = this.toggleTheme.bind(this)
+    this.onDownload = this.onDownload.bind(this)
 
     let newRemarkPlugins = [remarkSlug, remarkToc]
     let newRehypePlugins = [rehypeHighlight]
@@ -310,9 +310,8 @@ class App extends React.PureComponent {
   }
 
   // Download
-  onDownload() {
+  onDownload(evt) {
     const element = document.createElement("a")
-    console.log(this.state.value)
     const file = new Blob([this.state.value],    
     {type: 'text/plain;charset=utf-8'});
     element.href = URL.createObjectURL(file);
