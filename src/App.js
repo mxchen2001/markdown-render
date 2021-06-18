@@ -112,7 +112,8 @@ const styles = (theme) => ({
   },
 });
 
-const localValue = localStorage.getItem("value")
+// const localValue = localStorage.getItem("value")
+const localValue = null
 const localSettings = localStorage.getItem("settings")
 const localSettingsObj = localSettings === null ? null : JSON.parse(localStorage.getItem("settings"))
 
@@ -210,11 +211,26 @@ You should probably combine it with [\`rehype-sanitize\`](https://github.com/reh
 
 Another usesful feature that many markdown renderer will have is Latex Support. This is **disabled** by default by can be enabled through the checkbox similar to GFM and HTML.
 
-Heres an simple math function:
+**You will needs to add newlines if the katex is not being rendered.**
+
+Heres 2 ways of center math formulas:
+<center>
+  
+$ f(a,b,c) = (a^2+b^2+c^2)^3 $
+  
 $ f(a,b,c) = (a^2+b^2+c^2)^3 $
 
-Heres the average power formula:
-$ \\lim_{T \\to \\infty}\\frac{1}{2T} \\int_{-T}^{T} |u(t)|^{2} dt $
+</center>
+
+<div class="math math-display">
+  
+  L = \\frac{1}{2} \\rho v^2 S C_L
+
+</div>
+
+Heres the average power formula
+$ \\lim_{T \\to \\infty}\\frac{1}{2T} \\int_{-T}^{T} |u(t)|^{2} dt $ 
+as an inline formula.
 
 ## More info?
 You can access the repo on
