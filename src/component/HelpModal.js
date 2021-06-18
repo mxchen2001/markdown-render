@@ -77,7 +77,7 @@ export default function SlideModal(props) {
             <br/>
             <br/>
             <Typography variant="h4">Format Options</Typography>
-            <Typography id="text-body" variant="h6">You can choose to include Github Flavored Markdown, <code style={{backgroundColor: '#f4f4f4'}}>remark-gfm</code> and/or Raw HTML <code style={{backgroundColor: '#f4f4f4'}}>rehype-raw</code>.</Typography>
+            <Typography id="text-body" variant="h6">You can choose to include Github Flavored Markdown, <code style={{backgroundColor: '#f4f4f4'}}>GFM</code>, Raw HTML <code style={{backgroundColor: '#f4f4f4'}}>HTML</code>, and/or to include Latex support <code style={{backgroundColor: '#f4f4f4'}}>LATEX</code>.</Typography>
             <br/>
             <br/>
             <br/>
