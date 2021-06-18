@@ -112,8 +112,7 @@ const styles = (theme) => ({
   },
 });
 
-// const localValue = localStorage.getItem("value")
-const localValue = null
+const localValue = localStorage.getItem("value")
 const localSettings = localStorage.getItem("settings")
 const localSettingsObj = localSettings === null ? null : JSON.parse(localStorage.getItem("settings"))
 
