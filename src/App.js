@@ -318,7 +318,7 @@ class App extends React.PureComponent {
   // Editor Windows Changes
   onSourceChange(new_val) {
     this.setState({value: new_val}, )
-    localStorage.setItem("value", this.state.value);
+    localStorage.setItem("value", new_val);
     this.parseValue()
   }
 
@@ -450,7 +450,11 @@ class App extends React.PureComponent {
               </IconButton>
 
               {/* Reset Button */}
-              <IconButton style={{color: "#d9534f"}} onClick={() => {this.setState({value : initialValue})}}>
+              <IconButton style={{color: "#d9534f"}} onClick={() => {
+                this.setState({value : initialValue})
+                localStorage.setItem("value", initialValue)
+                this.parseValue()
+              }}>
                 <RotateLeftIcon />
               </IconButton>
               <HelpModal/>
