@@ -20,6 +20,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
+import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 
 import {
   Checkbox,
@@ -31,6 +32,8 @@ import {
   CssBaseline,
   IconButton,
 } from '@material-ui/core/';
+
+import Editor from "@monaco-editor/react";
 
 import CodeMirror from '@uiw/react-codemirror';
 import 'codemirror/addon/display/autorefresh';
@@ -119,7 +122,7 @@ const localSettingsObj = localSettings === null ? null : JSON.parse(localStorage
 
 const initialValue = `# Markdown Slides Demo
 
-Markdown Slides buit using react making use of \`material-ui\`, \`react-markdown\` and \`CodeMirror\`.
+Markdown Slides buit using react making use of \`material-ui\`, \`react-markdown\` and \`Monaco\`.
 
 This demo is adapted from the \`react-markdown\` demo.
 
@@ -321,8 +324,8 @@ class App extends React.PureComponent {
 
   
   // Editor Windows Changes
-  onSourceChange(evt, change) {
-    this.setState({value: evt.getValue()}, )
+  onSourceChange(new_val) {
+    this.setState({value: new_val}, )
     localStorage.setItem("value", this.state.value);
     this.parseValue()
   }
@@ -453,9 +456,14 @@ class App extends React.PureComponent {
               <IconButton style={{color: "#5bc0de"}} onClick={this.onDownload}>
                 <GetAppIcon />
               </IconButton>
+
+              {/* Reset Button */}
+              <IconButton style={{color: "#d9534f"}} onClick={() => {this.setState({value : initialValue})}}>
+                <RotateLeftIcon />
+              </IconButton>
               <HelpModal/>
 
-              {/* Help Button */}
+              {/* View Button */}
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -475,15 +483,13 @@ class App extends React.PureComponent {
             <div className={classes.drawerHeader} />
 
             {/* Code Window */}
-            <CodeMirror
-              value={this.state.value}
-              options={{
-                theme: this.state.dark? 'material-palenight' : 'solarized',
-                tabSize: 2,
-                keyMap: 'sublime',
-                mode: 'markdown',
-              }}
-              onChange={this.onSourceChange}
+            <Editor
+                height="100vh"
+                defaultLanguage="markdown"
+                theme={this.state.dark? 'vs-dark' : 'vs-light'}
+                defaultValue={this.state.value}
+                value={this.state.value}
+                onChange={this.onSourceChange}
             />
           </main>
 
