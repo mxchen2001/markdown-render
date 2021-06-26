@@ -5,18 +5,11 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { 
-  Select,   
-  Grid,
-  InputLabel,
-  FormHelperText,
-  FormControl,
   Container,
   IconButton 
 } from '@material-ui/core';
 
 import PresentToAllIcon from '@material-ui/icons/PresentToAll';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import { MarkdownWrapperHelper } from './MarkdownWrapper';
 
@@ -54,17 +47,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function SlidePageOptions(length) {
-  const totalPageNum = (length / 2)
-  let elements = []
-
-  for(var i = 0; i < totalPageNum; i++) {
-    elements.push(i)
-  }
-  
-  return elements;
-}
-
 export default function SlideModal(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -83,15 +65,6 @@ export default function SlideModal(props) {
 
   const handleNext = () => {
     setPageNum(pageNum >= element.length - 2 ? pageNum : pageNum + 2);
-  };
-
-  const handlePrev = () => {
-    setPageNum(pageNum <= 0 ? 0 : pageNum - 2);
-  };
-
-  const handleSet = (event) => {
-    const page = event.target.value;
-    setPageNum(page * 2);
   };
 
   const handleFull = () => {
@@ -131,29 +104,6 @@ export default function SlideModal(props) {
               <FullscreenIcon />
             </IconButton>
 
-            {/* <Grid container>
-              <Grid item className={classes.slideNav} xs={4}>
-              </Grid>
-              <Grid item className={classes.slideNav} xs={4}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="age-native-simple">Page</InputLabel>
-                  <Select
-                    native
-                    value={pageNum / 2}
-                    onChange={handleSet}
-                  >
-                    {SlidePageOptions(element.length).map((page) => (
-                      <option value={page}>Page {page + 1}</option>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item className={classes.slideNav} xs={4}>
-                <IconButton disabled={pageNum >= element.length - 2? true : false}  onClick={handleNext}>
-                  <NavigateNextIcon />
-                </IconButton>
-              </Grid>
-            </Grid> */}
             <div onClick={handleNext}>
               <Container>
                 {element[pageNum]}

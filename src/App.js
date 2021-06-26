@@ -14,7 +14,7 @@ import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import SlideModal from './component/SlideModal'
 import HelpModal from './component/HelpModal'
-import { MarkdownWrapper, MarkdownWrapperHelper} from './component/MarkdownWrapper'
+import { MarkdownWrapper } from './component/MarkdownWrapper'
 
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
@@ -34,14 +34,6 @@ import {
 } from '@material-ui/core/';
 
 import Editor from "@monaco-editor/react";
-
-import CodeMirror from '@uiw/react-codemirror';
-import 'codemirror/addon/display/autorefresh';
-import 'codemirror/addon/comment/comment';
-import 'codemirror/addon/edit/matchbrackets';
-import 'codemirror/keymap/sublime';
-import 'codemirror/theme/material-palenight.css';
-import 'codemirror/theme/solarized.css';
 
 import IOSSwitch from './component/Switch'
 
@@ -297,7 +289,7 @@ class App extends React.PureComponent {
 
     while(n >= 0) {
       n = this.state.value.indexOf("@newslide", startIndex);
-      while(n != -1 && this.state.value[n - 1] === '`') {
+      while(n !== -1 && this.state.value[n - 1] === '`') {
         n = this.state.value.indexOf("@newslide", startIndex + 1);
         startIndex =  n + 9
       }
