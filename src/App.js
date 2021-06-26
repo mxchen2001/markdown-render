@@ -486,6 +486,7 @@ class App extends React.PureComponent {
                 defaultValue={this.state.value}
                 value={this.state.value}
                 onChange={this.onSourceChange}
+                onMount={() => {this.parseValue()}}
             />
           </main>
 
