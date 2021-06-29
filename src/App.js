@@ -475,7 +475,7 @@ class App extends React.PureComponent {
               </IconButton>
             </Toolbar>
           </AppBar>
-        <main className={clsx(classes.content, { [classes.contentShift]: this.state.open,})} style={{backgroundColor: this.state.dark ? '#2a2d41': '#ffffff'}}>
+          <main className={clsx(classes.content, { [classes.contentShift]: this.state.open,})} style={{height:'100vh', overflow: 'hidden', backgroundColor: this.state.dark ? '#1e1e1e': '#ffffff'}}>
             <div className={classes.drawerHeader} />
 
             {/* Code Window */}
