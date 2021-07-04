@@ -86,14 +86,15 @@ const styles = (theme) => ({
     justifyContent: 'flex-start',
   },
   content: {
-    minHeight:"100vh",
-    height:"100%",
+    // minHeight:"100vh",
+    // height:"100%",
     flexGrow: 1,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginRight: "-" + drawerWidth,
+    marginRight: 0,
+    overflow: 'hidden'
   },
   contentShift: {
     minHeight:"100vh",
@@ -103,7 +104,8 @@ const styles = (theme) => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    marginRight: 0,
+    marginRight: drawerWidth,
+    overflow: 'hidden'
   },
 });
 
@@ -513,13 +515,6 @@ class App extends React.PureComponent {
                   })
                 }}>
                 <VisibilityOffIcon />
-              </IconButton>
-              <IconButton onClick={() => {
-                  this.setState({
-                    full: !this.state.full
-                  })
-                }}>
-                <FullscreenIcon />
               </IconButton>
             </div>
             <div style={{padding: '20px'}}>
