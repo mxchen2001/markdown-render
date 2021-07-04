@@ -110,8 +110,8 @@ const styles = (theme) => ({
 });
 
 const localValue = localStorage.getItem("value")
-const localSettings = localStorage.getItem("settings")
-const localSettingsObj = localSettings === null ? null : JSON.parse(localStorage.getItem("settings"))
+const localSettings = localStorage.getItem("mdsettings")
+const localSettingsObj = localSettings === null ? null : JSON.parse(localStorage.getItem("mdsettings"))
 
 
 const initialValue = `# Markdown Slides Demo
@@ -268,7 +268,7 @@ class App extends React.PureComponent {
       raw: temp_raw,
       math: temp_math,
       dark: localSettings === null? true : localSettingsObj["dark"],
-      open: true,
+      open: localSettings === null? true : localSettingsObj["preview"],
       full: false,
     }
 
@@ -280,7 +280,7 @@ class App extends React.PureComponent {
     this.setState({
       dark: toggledState
     })
-    localStorage.setItem("settings", JSON.stringify({"gfm": this.state.gfm, "raw": this.state.raw, "math": this.state.math, "dark": toggledState}));
+    localStorage.setItem("mdsettings", JSON.stringify({"gfm": this.state.gfm, "raw": this.state.raw, "math": this.state.math, "dark": toggledState, "preview": this.state.open}));
   }
 
   parseValue() {
@@ -369,7 +369,7 @@ class App extends React.PureComponent {
       temp_math = checked;
     }
     this.pluginHelper(temp_gfm, temp_raw, temp_math)
-    localStorage.setItem("settings", JSON.stringify({"gfm": temp_gfm, "raw": temp_raw, "math": temp_math, "dark": this.state.dark}));
+    localStorage.setItem("mdsettings", JSON.stringify({"gfm": temp_gfm, "raw": temp_raw, "math": temp_math, "dark": this.state.dark}));
   }
 
   render() {
@@ -470,6 +470,7 @@ class App extends React.PureComponent {
                   this.setState({
                     open: true
                   })
+                  localStorage.setItem("mdsettings", JSON.stringify({"gfm": this.state.gfm, "raw": this.state.raw, "math": this.state.math, "dark": this.state.dark, "preview": true}));
                 }}
                 className={clsx(this.state.open && classes.hide)}
               >
@@ -513,6 +514,7 @@ class App extends React.PureComponent {
                     open: false,
                     full: false
                   })
+                  localStorage.setItem("mdsettings", JSON.stringify({"gfm": this.state.gfm, "raw": this.state.raw, "math": this.state.math, "dark": this.state.dark, "preview": false}));
                 }}>
                 <VisibilityOffIcon />
               </IconButton>
