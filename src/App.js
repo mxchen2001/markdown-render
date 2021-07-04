@@ -22,7 +22,17 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import SendIcon from '@material-ui/icons/Send';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+
 import {
+  Container,
   Checkbox,
   FormControlLabel,
   Typography,
@@ -31,6 +41,7 @@ import {
   Toolbar,
   CssBaseline,
   IconButton,
+  Hidden,
 } from '@material-ui/core/';
 
 import Editor from "@monaco-editor/react";
@@ -232,6 +243,38 @@ You can access the repo on
 [GitHub](https://github.com/mxchen2001/markdown-render)!
 ***
 `
+
+const StyledMenu = withStyles({
+  paper: {
+    border: '1px solid #d3d4d5',
+  },
+})((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'center',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}
+    {...props}
+  />
+));
+
+const StyledMenuItem = withStyles((theme) => ({
+  root: {
+    '&:focus': {
+      backgroundColor: '#ffffff',
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+}))(MenuItem);
+
 class App extends React.PureComponent {
   constructor(props) {
     super(props)
@@ -269,6 +312,7 @@ class App extends React.PureComponent {
       math: temp_math,
       dark: localSettings === null? true : localSettingsObj["dark"],
       open: localSettings === null? true : localSettingsObj["preview"],
+      anchor: null,
       full: false,
     }
 
@@ -378,106 +422,223 @@ class App extends React.PureComponent {
     return (
       <>
           <CssBaseline />
-          <AppBar
-            position="fixed"
-            style={{ background: '#232932' }}
-            className={clsx(classes.appBar, {
-              [classes.appBarShift]: this.state.open,
-            })}
-          >
-            <Toolbar>
-              <Typography variant="h6" noWrap className={classes.title}>
-                Markdown Slides
-              </Typography>
+          <Hidden smDown>
+            <AppBar
+              position="fixed"
+              style={{ background: '#232932' }}
+              className={clsx(classes.appBar, {
+                [classes.appBarShift]: this.state.open,
+              })}
+            >
+              <Toolbar>
+                <Typography variant="h6" noWrap className={classes.title}>
+                  Markdown Slides
+                </Typography>
 
-              {/* Dark mode toggle */}
-              <IOSSwitch checked={this.state.dark} onClick={this.toggleTheme}/>
+                {/* Dark mode toggle */}
+                <IOSSwitch checked={this.state.dark} onClick={this.toggleTheme}/>
+                <Typography variant="h8" noWrap style={{paddingRight: '1em'}}>
+                  Dark mode
+                </Typography>
 
-              {/* Github Formatted Markdown */}
-              <FormControlLabel
-                control={
-                  <Checkbox
-                  checked={this.state.gfm}
-                  style ={{
-                    color: "#f0ad4e",
-                  }}
-                  name="gfm"
-                  onChange={this.onControlsChange}
+                {/* Github Formatted Markdown */}
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                    checked={this.state.gfm}
+                    style ={{
+                      color: "#f0ad4e",
+                    }}
+                    name="gfm"
+                    onChange={this.onControlsChange}
+                    />
+                  }
+                  label="GFM"
                   />
-                }
-                label="GFM"
+
+                {/* Pure HTML Formatted Markdown */}
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                    checked={this.state.raw}
+                    style ={{
+                      color: "#5bc0de",
+                    }}
+                    name="raw"
+                    onChange={this.onControlsChange}
+                    />
+                  }
+                  label="HTML"
                 />
 
-              {/* Pure HTML Formatted Markdown */}
-              <FormControlLabel
-                control={
-                  <Checkbox
-                  checked={this.state.raw}
-                  style ={{
-                    color: "#5bc0de",
+                {/* Katex Markdown */}
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                    checked={this.state.math}
+                    style ={{
+                      color: "#f59e0b",
+                    }}
+                    name="math"
+                    onChange={this.onControlsChange}
+                    />
+                  }
+                  label="LATEX"
+                />
+
+                {/* Presentation Modal */}
+                <SlideModal
+                  value={this.state.value}
+                  indices={this.state.indices}
+                  remarkPlugins={this.state.remarkPlugins}
+                  rehypePlugins={this.state.rehypePlugins}
+                />
+
+                {/* Download Button */}
+                <IconButton style={{color: "#5bc0de"}} onClick={this.onDownload}>
+                  <GetAppIcon />
+                </IconButton>
+
+                {/* Reset Button */}
+                <IconButton style={{color: "#d9534f"}} onClick={() => {
+                  this.setState({value : initialValue})
+                  localStorage.setItem("value", initialValue)
+                  this.parseValue()
+                }}>
+                  <RotateLeftIcon />
+                </IconButton>
+                <HelpModal/>
+
+                {/* View Button */}
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  edge="end"
+                  onClick={() => {
+                    this.setState({
+                      open: true
+                    })
+                    localStorage.setItem("mdsettings", JSON.stringify({"gfm": this.state.gfm, "raw": this.state.raw, "math": this.state.math, "dark": this.state.dark, "preview": true}));
                   }}
-                  name="raw"
-                  onChange={this.onControlsChange}
-                  />
-                }
-                label="HTML"
-              />
+                  className={clsx(this.state.open && classes.hide)}
+                >
+                  <VisibilityIcon />
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+          </Hidden>
+          <Hidden mdUp>
+            <AppBar
+              position="fixed"
+              style={{ background: '#232932' }}
+              className={clsx(classes.appBar, {
+                [classes.appBarShift]: this.state.open,
+              })}
+            >
+              <Toolbar>
+                <Typography variant="h6" noWrap className={classes.title}>
+                  mdSlides
+                </Typography>
 
-              {/* Katex Markdown */}
-              <FormControlLabel
-                control={
-                  <Checkbox
-                  checked={this.state.math}
-                  style ={{
-                    color: "#f59e0b",
+                <IOSSwitch checked={this.state.dark} onClick={this.toggleTheme}/>
+
+                {/* Presentation Modal */}
+                <SlideModal
+                  value={this.state.value}
+                  indices={this.state.indices}
+                  remarkPlugins={this.state.remarkPlugins}
+                  rehypePlugins={this.state.rehypePlugins}
+                />
+
+                {/* Download Button */}
+                <IconButton style={{color: "#5bc0de"}} onClick={this.onDownload}>
+                  <GetAppIcon />
+                </IconButton>
+
+                {/* Reset Button */}
+                <IconButton style={{color: "#d9534f"}} onClick={() => {
+                  this.setState({value : initialValue})
+                  localStorage.setItem("value", initialValue)
+                  this.parseValue()
+                }}>
+                  <RotateLeftIcon />
+                </IconButton>
+                <HelpModal/>
+
+                <IconButton
+                  aria-label="more"
+                  aria-controls="long-menu"
+                  aria-haspopup="true"
+                  style={{color: '#ffffff'}}
+                  onClick={(event) =>  {
+                    this.setState({
+                      anchor: event.currentTarget
+                    })
                   }}
-                  name="math"
-                  onChange={this.onControlsChange}
-                  />
-                }
-                label="LATEX"
-              />
+                >
+                  <MoreVertIcon />
+                </IconButton>
 
-              {/* Presentation Modal */}
-              <SlideModal
-                value={this.state.value}
-                indices={this.state.indices}
-                remarkPlugins={this.state.remarkPlugins}
-                rehypePlugins={this.state.rehypePlugins}
-              />
-
-              {/* Download Button */}
-              <IconButton style={{color: "#5bc0de"}} onClick={this.onDownload}>
-                <GetAppIcon />
-              </IconButton>
-
-              {/* Reset Button */}
-              <IconButton style={{color: "#d9534f"}} onClick={() => {
-                this.setState({value : initialValue})
-                localStorage.setItem("value", initialValue)
-                this.parseValue()
-              }}>
-                <RotateLeftIcon />
-              </IconButton>
-              <HelpModal/>
-
-              {/* View Button */}
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="end"
-                onClick={() => {
-                  this.setState({
-                    open: true
-                  })
-                  localStorage.setItem("mdsettings", JSON.stringify({"gfm": this.state.gfm, "raw": this.state.raw, "math": this.state.math, "dark": this.state.dark, "preview": true}));
-                }}
-                className={clsx(this.state.open && classes.hide)}
-              >
-                <VisibilityIcon />
-              </IconButton>
-            </Toolbar>
-          </AppBar>
+                <StyledMenu
+                  id="customized-menu"
+                  anchorEl={this.state.anchor}
+                  keepMounted
+                  open={Boolean(this.state.anchor)}
+                  onClose={() => {
+                    this.setState({
+                      anchor: null
+                    })
+                  }}
+                >
+                  <StyledMenuItem>
+                    <FormControlLabel
+                    control={
+                      <Checkbox
+                      checked={this.state.gfm}
+                      style ={{
+                        color: "#f0ad4e",
+                      }}
+                      name="gfm"
+                      onChange={this.onControlsChange}
+                      />
+                    }
+                    label="GFM"
+                    />
+                  </StyledMenuItem>
+                  <StyledMenuItem>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                        checked={this.state.raw}
+                        style ={{
+                          color: "#5bc0de",
+                        }}
+                        name="raw"
+                        onChange={this.onControlsChange}
+                        />
+                      }
+                      label="HTML"
+                    />
+                  </StyledMenuItem>
+                  <StyledMenuItem>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                        checked={this.state.math}
+                        style ={{
+                          color: "#f59e0b",
+                        }}
+                        name="math"
+                        onChange={this.onControlsChange}
+                        />
+                      }
+                      label="LATEX"
+                    />
+                  </StyledMenuItem>
+                </StyledMenu>
+              </Toolbar>
+            </AppBar>
+          </Hidden>
           <main className={clsx(classes.content, { [classes.contentShift]: this.state.open,})} style={{height:'100vh', overflow: 'hidden', backgroundColor: this.state.dark ? '#1e1e1e': '#ffffff'}}>
             <div className={classes.drawerHeader} />
 
