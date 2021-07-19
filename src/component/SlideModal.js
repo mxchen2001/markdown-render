@@ -17,7 +17,8 @@ import { MarkdownWrapperHelper } from './MarkdownWrapper';
 const useStyles = makeStyles((theme) => ({
   modal: {
     backgroundColor: theme.palette.background.paper,
-    overflow: 'scroll',
+    overflowY: 'scroll',
+    overflowX: 'none',
     width: "80vw",
     height: "90vh",
     margin: "5vh 10vw 5vh 10vw",

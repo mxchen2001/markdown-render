@@ -28,6 +28,7 @@ function MarkdownWrapperHelper(value, indices, remarkPlugins, rehypePlugins) {
          // push the component to elements!
         elements.push(              
           <Markdown
+            key={'markdown-' + i}
             style={{ paddingBottom: "10%"}}
             className="markdown-body"
             remarkPlugins={remarkPlugins}
@@ -38,7 +39,7 @@ function MarkdownWrapperHelper(value, indices, remarkPlugins, rehypePlugins) {
         );
   
         elements.push(
-          <Pagebreak label={"Slide " + i}/>
+          <Pagebreak  key={'newslide-'+i} label={"Slide " + i}/>
         );
     }
     return elements
@@ -52,6 +53,6 @@ function MarkdownWrapper(props) {
           {elements}
         </div>
     );
-  }
+}
 
 export { MarkdownWrapper, MarkdownWrapperHelper}
