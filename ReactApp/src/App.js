@@ -1,16 +1,11 @@
 import React from 'react'
 import Markdown from './Markdown'
-import FileContextProvider from './FileContext'
-import SettingContextProvider from './SettingContext'
+import StateContextProvider from './StateContext'
 
 export default function App() {
     return (
-        <div>
-            <FileContextProvider>
-                <SettingContextProvider>
-                    <Markdown />
-                </SettingContextProvider>
-            </FileContextProvider>
-        </div>
+        <StateContextProvider>
+            <Markdown />
+        </StateContextProvider>
     )
 }

@@ -1,0 +1,19 @@
+.editor-preview-container {
+    display: flex;
+    flex-direction: row;
+}
+.editor-preview-item {
+    width: 50%;
+}
+
+.dark-editor {
+    background-color: #1a1a1a;
+}
+
+.preview {
+    padding: 1.5em;
+}
+
+.editor {
+    /* height: 100vh; */
+}

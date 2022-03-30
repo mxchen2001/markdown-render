@@ -1,7 +1,6 @@
-import React, { Component, createContext, useState, useEffect } from 'react'
+import React, { useEffect, createContext, useState } from 'react'
 
-
-const initialValue = `# Markdown Slides Demo
+const defaultVal = `# Markdown Slides Demo
 
 Markdown Slides buit using react making use of \`material-ui\`, \`react-markdown\` and \`Monaco\`.
 
@@ -96,7 +95,7 @@ Another usesful feature that many markdown renderer will have is Latex Support. 
 
 **You will needs to add newlines if the katex is not being rendered.**
 
-Heres 2 ways of center math formulas:
+Heres is the way of center math formulas:
 <center>
   
 $ f(a,b,c) = (a^2+b^2+c^2)^3 $
@@ -104,11 +103,6 @@ $ f(a,b,c) = (a^2+b^2+c^2)^3 $
 $ f(a,b,c) = (a^2+b^2+c^2)^3 $
 
 </center>
-
-Creating any html block with \`class="math math-inline"\`
-<div class="math math-display">
-  L = \\frac{1}{2} \\rho v^2 S C_L
-</div>
 
 Heres the average power formula
 $ \\lim_{T \\to \\infty}\\frac{1}{2T} \\int_{-T}^{T} |u(t)|^{2} dt $ 
@@ -120,51 +114,27 @@ You can access the repo on
 ***
 `
 
+export const StateContext = createContext()
 
-export const FileContext = createContext()
+function StateContextProvider(props) {
+    const localFiles = localStorage.getItem("mdfile")
 
-function FileContextProvider(props) {
-    const localFiles = localStorage.getItem("mdfilesys")
-
-    let initFile = { fname: 'untitled', content: initialValue }
-
-    if (localFiles) {
-        let localFilesParsed = Object.entries(JSON.parse(localFiles))
-        if (Object.keys(localFilesParsed).length !== 0) {
-            initFile = { fname: localFilesParsed[0][0], content: localFilesParsed[0][1] }
-        }
-    }
-
-    const [language, setLanguage] = useState('javascript')
-    const [dark, setDark] = useState(true);
-    const [file, setFile] = useState(initFile)
-    const [filesys, setFilesys] = useState(localFiles === null ? {} : JSON.parse(localFiles))
-
-    const saveFile = (filename, content) => {
-        setFilesys(prevState => ({ ...prevState, [filename]: content }))
-    }
-
-    const addFile = (filename, content) => {
-        setFilesys(prevState => ({ ...prevState, [filename]: content }))
-    }
-
-    const deleteFile = (filename) => {
-        setFilesys(prevState => {
-            const state = { ...prevState };
-            delete state[filename];
-            return state;
-        })
-    }
+    const [value, setValue] = useState(localFiles == undefined || JSON.parse(localFiles) == "" ? defaultVal : JSON.parse(localFiles))
 
     useEffect(() => {
-        localStorage.setItem('mdfilesys', JSON.stringify(filesys))
-    }, [filesys])
+        const timer = setTimeout(() => {
+            localStorage.setItem('mdfile', JSON.stringify(value))
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, [value])
+
+    const [indices, setIndices] = useState([-9, ''.length])
 
     return (
-        <FileContext.Provider value={{ language, setLanguage, dark, setDark, file, setFile, saveFile, deleteFile, addFile, initialValue, filesys }}>
+        <StateContext.Provider value={{ value, setValue, indices, setIndices, defaultVal }}>
             {props.children}
-        </FileContext.Provider>
+        </StateContext.Provider>
     )
 }
 
-export default FileContextProvider
+export default StateContextProvider

@@ -54,7 +54,7 @@ export default function SlideModal(props) {
   const [pageNum, setPageNum] = React.useState(0);
   const [full, setFull] = React.useState(false);
 
-  const element = MarkdownWrapperHelper(props.value, props.indices, props.remarkPlugins, props.rehypePlugins)
+  const element = MarkdownWrapperHelper(props.value, props.indices)
 
   const handleOpen = () => {
     setOpen(true);
