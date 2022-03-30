@@ -4,6 +4,7 @@
 }
 .editor-preview-item {
     width: 50%;
+    min-height: 100vh;
 }
 
 .dark-editor {
@@ -12,8 +13,4 @@
 
 .preview {
     padding: 1.5em;
-}
-
-.editor {
-    /* height: 100vh; */
 }

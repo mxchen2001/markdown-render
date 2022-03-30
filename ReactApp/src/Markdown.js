@@ -38,7 +38,6 @@ function Markdown() {
         <div className='editor-preview-item dark-editor'>
           <Editor
             height="99%"
-            className='editor'
             defaultLanguage="markdown"
             theme='vs-dark'
             value={value}
