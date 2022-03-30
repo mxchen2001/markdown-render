@@ -128,9 +128,11 @@ function FileContextProvider(props) {
 
     let initFile = { fname: 'untitled', content: initialValue }
 
-    let localFilesParsed = Object.entries(JSON.parse(localFiles))
-    if (Object.keys(localFilesParsed).length !== 0) {
-        initFile = { fname: localFilesParsed[0][0], content: localFilesParsed[0][1] }
+    if (localFiles) {
+        let localFilesParsed = Object.entries(JSON.parse(localFiles))
+        if (Object.keys(localFilesParsed).length !== 0) {
+            initFile = { fname: localFilesParsed[0][0], content: localFilesParsed[0][1] }
+        }
     }
 
     const [language, setLanguage] = useState('javascript')

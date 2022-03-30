@@ -172,7 +172,7 @@ function Markdown(props) {
         }
         variant="persistent"
         anchor="right"
-        open={open}
+        open={true}
         classes={{
           paper: clsx(classes.drawerPaper),
         }}
